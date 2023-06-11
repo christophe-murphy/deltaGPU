@@ -2,8 +2,8 @@
 
 class Ray {
     public:
-        __device__ Ray(const float pos_in[3], const float dir_in[3], const int id_in);
+        __device__ Ray(const float3 orig_in, const float3 dir_in, const int id_in);
 
 	int id;
-	float pos[3], dir[3];
+	float3 orig, dir;
 };

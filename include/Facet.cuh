@@ -4,12 +4,10 @@
 
 class Facet {
     public:
-        __device__ Facet(const int id_in, const float vertex0_in[3],
-			 const float vertex1_in[3], const float vertex2_in[3]);
-	__device__ bool intersect(Ray &ray) const;
+        __device__ Facet(const int id_in, const float3 vertex0_in,
+			 const float3 vertex1_in, const float3 vertex2_in);
+	__device__ bool intersect(Ray& ray, float3& int_point) const;
 
-	int id;
-	float vertex0[3];
-	float vertex1[3];
-	float vertex2[3];
+	const int id;
+	const float3 vertex0, vertex1, vertex2;
 };

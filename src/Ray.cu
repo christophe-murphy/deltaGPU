@@ -1,4 +1,4 @@
 #include "Ray.cuh"
 
-__device__ Ray::Ray(const float pos_in[3], const float dir_in[3], const int id_in)
-    : pos(pos_in), dir(dir_in), id(id_in) {}
+__device__ Ray::Ray(const float3 pos_in, const float3 dir_in, const int id_in)
+    : orig(orig_in), dir(dir_in), id(id_in) {}
