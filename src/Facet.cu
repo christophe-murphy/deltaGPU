@@ -2,10 +2,10 @@
 #include "Constants.cuh"
 
 __host__ Facet::Facet(const int id_in, const float3& vertex0_in,
-                      const float3& vertex1_in, const float3& vertex2_in)
-    : id(id_in), vertex0(vertex0_in), vertex1(vertex1_in), vertex2(vertex2_in) {
-	normal = cross(vertex2-vertex0, vertex1-vertex0);
-    }
+                      const float3& vertex1_in, const float3& vertex2_in,
+		      const float3& normal_in)
+    : id(id_in), vertex0(vertex0_in), vertex1(vertex1_in), vertex2(vertex2_in),
+      normal(normal_in) {}
 
 __device__ bool Facet::intersect(Ray& ray, float3& int_point) const {
     //Möller–Trumbore intersection algorithm
