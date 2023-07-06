@@ -73,7 +73,38 @@ __host__ int DeltaGPU::construct_model(std::vector<Facet>& facets, const char* m
     } else {
         model_file.close();
 	model_file.open(model_file_name, std::ifstream::binary);
-        
+
+	//Read Header
+	{char[80] buffer;
+        model_file.read(buffer, 80);}
+
+	//If header read succesfully, continue reading file
+	if (model_file) {
+	    char[4] buffer4;
+	    char[2] buffer2;
+
+            //Read no. facets
+            model_file.read(buffer4, 4);
+            n_facets = (unsigned int) buffer4;
+
+    	    //Read facets
+            for (int n = 0; n < n_facets; ++n) {
+		for (int i = 0; i < 3; ++i) {
+                    model_file.read(buffer4, 4);
+		    normal[i] = (float) buffer4;
+		}
+		for (int v = 0; v < 3; ++v) {i
+		    for (int i = 0; i < 3; ++i) {
+			model_file.read(buffer4, 4);
+                        vertex[i] = (float) buffer4;
+		    }
+		    vertices.push_back(vertex);
+		}
+		model_file.read(buffer2, 2);
+		facets.push_back(Facet(n, vertices[0], vertices[1], vertices[2], normal));
+		vertices.clear();
+            }
+        }
     }
     model_file.close();
     return n_facets;
