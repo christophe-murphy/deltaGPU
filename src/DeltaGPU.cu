@@ -48,23 +48,14 @@ __host__ int DeltaGPU::construct_model(std::vector<Facet>& facets, const char* m
 	    if (word == "facet") {
                 ++n_facets;
 	    } else if (word == "normal") {
-		float n;
-		for (int i = 0; i < 3; ++i) {
-                    model_file >> n;
-		    normal[i] = n;
-                }
+		model_file >> normal.x;
+		model_file >> normal.y;
+		model_file >> normal.z;
 	    } else if (word == "vertex") {
 		for (int nv = 0; nv < 3; ++nv) {
-                    float v;
-                    for (int i = 0; i < 3; ++i) {
-                        model_file >> v;
-                        vertex[i] = v;
-                    }
-		    vertices.push_back(vertex);
-		    model_file >> word;
-                }
-	    } else if (word == "endfacet") {
-                facets.push_back(Facet(n_facets, vertices[0], vertices[1], vertices[2], normal));
+                    model_file >> vertex.x;
+                    model_file >> vertex.y;
+                    model_file >> vertex.z;
                 vertices.clear();
 	    }
             model_file >> word;
@@ -89,15 +80,13 @@ __host__ int DeltaGPU::construct_model(std::vector<Facet>& facets, const char* m
 
     	    //Read facets
             for (int n = 0; n < n_facets; ++n) {
-		for (int i = 0; i < 3; ++i) {
-                    model_file.read(buffer4, 4);
-		    normal[i] = (float) buffer4;
-		}
-		for (int v = 0; v < 3; ++v) {i
-		    for (int i = 0; i < 3; ++i) {
-			model_file.read(buffer4, 4);
-                        vertex[i] = (float) buffer4;
-		    }
+                model_file.read(buffer4, 4); normal.x = (float) buffer4;
+                model_file.read(buffer4, 4); normal.y = (float) buffer4;
+                model_file.read(buffer4, 4); normal.z = (float) buffer4;
+		for (int v = 0; v < 3; ++v) {
+                    model_file.read(buffer4, 4); vertex.x = (float) buffer4;
+                    model_file.read(buffer4, 4); vertex.y = (float) buffer4;
+                    model_file.read(buffer4, 4); vertex.z = (float) buffer4;
 		    vertices.push_back(vertex);
 		}
 		model_file.read(buffer2, 2);
